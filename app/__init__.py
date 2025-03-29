@@ -8,7 +8,7 @@ socketio = SocketIO()
 def create_app():
     app = Flask(__name__, template_folder='./templates')  # Explicit path
     # Load configuration
-    CORS(app)
+
     app.config.from_object('config.Config')
     
     # Initialize extensions
