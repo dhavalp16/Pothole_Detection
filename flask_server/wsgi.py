@@ -13,9 +13,4 @@ if __name__ == '__main__':
     print(f"🚀 Server starting on http://localhost:5000")
     print("="*50 + "\n")
     
-    socketio.run(app, 
-                 host='0.0.0.0', 
-                 port=5000, 
-                 debug=True, 
-                 log_output=True,  # Add this
-                 use_reloader=False)  # Disable reloader for clearer logs
+    socketio.run(app)
