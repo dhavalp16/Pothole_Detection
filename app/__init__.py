@@ -6,7 +6,7 @@ db = SQLAlchemy()
 socketio = SocketIO()
 
 def create_app():
-    app = Flask(__name__, template_folder='../templates')  # Explicit path
+    app = Flask(__name__, template_folder='./templates')  # Explicit path
     # Load configuration
     app.config.from_object('config.Config')
     
