@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pothole Monitor</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <style>
+        #map { height: 100vh; }
+        .pothole-marker { background: red; border-radius: 50%; width: 15px; height: 15px; }
+        .normal-marker { background: green; border-radius: 50%; width: 10px; height: 10px; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        const map = L.map('map').setView([0, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        
+        const socket = io();
+        socket.on('new_detection', function(data) {
+            const marker = L.circleMarker([data.lat, data.lon], {
+                radius: data.is_pothole ? 15 : 10,
+                className: data.is_pothole ? 'pothole-marker' : 'normal-marker'
+            }).addTo(map);
+            
+            marker.bindPopup(`
+                <b>${data.is_pothole ? 'POTHOLE' : 'Normal'}</b><br>
+                Depth: ${data.depth.toFixed(1)}cm<br>
+                ${new Date(data.timestamp).toLocaleString()}
+            `);
+        });
+    </script>
+</body>
+</html>
